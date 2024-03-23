@@ -1,18 +1,19 @@
-import React from 'react'
-import CardHeader from './CardHeader'
-import CardBody from './CardBody'
+import React from 'react';
+import CardHeader from './CardHeader';
+import CardBody from './CardBody';
+import styled from 'styled-components';
 
-const CardContent = ({DeveloperMode}) => {
-  // Information of Doctor:
-  // Title, Prefix, Name, Pronoun, Email, Number, AvailableTime, Experience 
-  // Format:
-  // Name(Pronoun) 
+const StyledCardContent = styled.div`
+  font-family: -apple-system, system-ui, 'Segoe UI', 'Liberation Sans', sans-serif;
+`;
+
+const CardContent = ({ DeveloperMode }) => {
   return (
-    <div>
-      <CardHeader  DeveloperMode = {DeveloperMode} />
-      <CardBody DeveloperMode = {DeveloperMode}/>
-    </div>
-  )
-}
+    <StyledCardContent>
+      <CardHeader DeveloperMode={DeveloperMode} />
+      <CardBody DeveloperMode={DeveloperMode} />
+    </StyledCardContent>
+  );
+};
 
-export default CardContent
+export default CardContent;
