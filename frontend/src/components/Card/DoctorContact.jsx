@@ -22,12 +22,16 @@ const ContactItem = styled.div`
     cursor: pointer;
   }
 
-  a, p {
+  a {
     margin: 0;
     flex-grow: 1;
     cursor: pointer;
     color: blue;
     text-decoration: underline;
+  }
+  p {
+    margin: 0;
+    flex-grow: 1;
   }
 `;
 
