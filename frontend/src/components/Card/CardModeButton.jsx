@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-
+// Information of Doctor:
+// Title, Prefix, Name, Rating, Specialization Pronoun, Email, Number, AvailableTime, Experience, Total Appointments
 const Button = styled.button`
   background-color: #e1ecf4;
   border-radius: 3px;

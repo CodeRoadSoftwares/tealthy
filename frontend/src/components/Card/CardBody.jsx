@@ -4,7 +4,8 @@ import DoctorIntroduction from './DoctorIntroduction';
 import DoctorContact from './DoctorContact';
 import QuickAction from './QuickAction';
 import styled from 'styled-components';
-
+// Information of Doctor:
+  // Title, Prefix, Name, Rating, Specialization Pronoun, Email, Number, AvailableTime, Experience, Total Appointments
 const StyledCardBody = styled.div`
   margin: 5px;
   font-family: -apple-system, system-ui, 'Segoe UI', 'Liberation Sans', sans-serif;
@@ -15,6 +16,7 @@ const StyledCardBody = styled.div`
 
     h2 {
       margin-right: 10px;
+      font:"bold";
     }
 
     img {

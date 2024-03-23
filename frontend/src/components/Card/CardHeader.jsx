@@ -1,7 +1,8 @@
-import React from 'react';
+import React from 'react'
 import edit from './edit.png';
 import styled from 'styled-components';
-
+// Information of Doctor:
+  // Title, Prefix, Name, Rating, Specialization Pronoun, Email, Number, AvailableTime, Experience, Total Appointments
 const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
@@ -13,8 +14,8 @@ const Title = styled.h1`
 `;
 
 const EditIcon = styled.img`
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
 `;
 

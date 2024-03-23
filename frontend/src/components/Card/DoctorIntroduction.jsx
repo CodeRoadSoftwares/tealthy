@@ -1,9 +1,11 @@
 import React from 'react';
 import edit from './edit.png';
 import styled from 'styled-components';
-
+// Information of Doctor:
+// Title, Prefix, Name, Rating, Specialization Pronoun, Email, Number, AvailableTime, Experience, Total Appointments
 const IntroContainer = styled.div`
   width: 330px;
+  height: 20px;
   text-wrap: wrap;
 `;
 

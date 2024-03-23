@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import edit from './edit.png';
-
+// Information of Doctor:
+// Title, Prefix, Name, Rating, Specialization Pronoun, Email, Number, AvailableTime, Experience, Total Appointments
 const ContactContainer = styled.div`
   margin-left: 10px;
   width: 330px;
   height: 20px;
-  display: flex;
-  flex-direction: column;
+  text-wrap: wrap;
 `;
 
 const ContactItem = styled.div`

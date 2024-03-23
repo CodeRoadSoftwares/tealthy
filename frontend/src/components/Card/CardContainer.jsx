@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import CardContent from './CardContent';
 import CardImage from './CardImage';
 import styled from 'styled-components';
-
+// Information of Doctor:
+  // Title, Prefix, Name, Rating, Specialization Pronoun, Email, Number, AvailableTime, Experience, Total Appointments
 const StyledCardContainer = styled.div`
   padding: 20px;
   display: inline-flex;

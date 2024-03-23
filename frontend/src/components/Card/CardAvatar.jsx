@@ -1,27 +1,21 @@
-import React from 'react';
+import React from 'react'
+import doctorPicture from './sampledoctor.jpg'
 import styled from 'styled-components';
-import doctorPicture from './sampledoctor.jpg';
-
-const StyledCardAvatar = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 50px;
-
-  img {
+// Information of Doctor:
+  // Title, Prefix, Name, Rating, Specialization Pronoun, Email, Number, AvailableTime, Experience, Total Appointments
+const StyledCardAvatar = styled.img`
     width: 150px;
     height: 150px;
     border-radius: 50%;
+    margin-top: 50px;
     object-fit: cover;
-  }
 `;
-
-const CardAvatar = ({ DeveloperMode }) => {
+const CardAvatar = ({DeveloperMode}) => {
   return (
-    <StyledCardAvatar>
-      <img src={doctorPicture} alt="Doctor" />
-    </StyledCardAvatar>
-  );
-};
+    <div className='CardAvatar'>
+      <StyledCardAvatar src= {doctorPicture} alt = "Doctor" style={{width:"150px",marginTop:"50px",height:"150px"}}></StyledCardAvatar>
+    </div>
+  )
+}
 
-export default CardAvatar;
+export default CardAvatar
