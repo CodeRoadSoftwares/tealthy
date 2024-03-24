@@ -35,28 +35,32 @@ const ContactItem = styled.div`
   }
 `;
 
-const DoctorContact = ({ DeveloperMode }) => {
+const DoctorContact = ({ DeveloperMode, Email, Number, AddressLine, AddressRegion, AvailableTime}) => {
   return (
     <ContactContainer>
-      <ContactItem>
+      <ContactItem> {/*Phone Number of the doctor*/}
         {DeveloperMode ? <img src={edit} alt="edit icon" /> : ''}
-        <a href="tel:123-456-7890">123-456-7890</a>
+        {DeveloperMode ? (<textarea style = {{border:"1px solid black"}} rows="2" cols="30" maxLength={60}>{Number}</textarea>) : 
+        (Number !== "(Edit Number)" ? <a href={`tel:${Number}`}>{Number}</a> : 
+        <p>{Number}</p>)}
       </ContactItem>
-      <ContactItem>
+      <ContactItem> {/*Email of the doctor*/}
         {DeveloperMode ? <img src={edit} alt="edit icon" /> : ''}
-        <a href="mailto:example@contact.com">example@contact.com</a>
+        {DeveloperMode ?<textarea style = {{border:"1px solid black"}} rows="2" cols="30" maxLength={60}>{Email}</textarea> : 
+        (Email !== "(Edit Email)" ? <a href={`mailto:${Email}`}>{Email}</a> : 
+        <p>{Email}</p>)}
       </ContactItem>
-      <ContactItem>
+      <ContactItem> {/*Address Line of the doctor*/}
         {DeveloperMode ? <img src={edit} alt="edit icon" /> : ''}
-        <p>MSC 1122-333-444</p>
+        {DeveloperMode ?<textarea style = {{border:"1px solid black"}} rows="2" cols="30" maxLength={60}>{AddressLine}</textarea> : <p>{AddressLine}</p>}
       </ContactItem>
-      <ContactItem>
+      <ContactItem> {/*Address Region of the doctor*/}
         {DeveloperMode ? <img src={edit} alt="edit icon" /> : ''}
-        <p>Random Forest Blvd 12345</p>
+        {DeveloperMode ?<textarea style = {{border:"1px solid black"}} rows="2" cols="30" maxLength={60}>{AddressRegion}</textarea> : <p>{AddressRegion}</p>}
       </ContactItem>
-      <ContactItem>
+      <ContactItem> {/*Available Time of the doctor*/}
         {DeveloperMode ? <img src={edit} alt="edit icon" /> : ''}
-        <p>Burger, NY, United States</p>
+        {DeveloperMode ?<textarea style = {{border:"1px solid black"}} rows="2" cols="30" maxLength={60}>{AvailableTime}</textarea> : <p>{AvailableTime}</p>}
       </ContactItem>
     </ContactContainer>
   );

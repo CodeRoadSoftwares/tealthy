@@ -12,8 +12,8 @@ const IntroContainer = styled.div`
 const IntroItem = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 18px;
-  margin-bottom: 18px;
+  margin-top: 15px;
+  margin-bottom: 15px;
 
   img {
     width: 20px;
@@ -27,20 +27,24 @@ const IntroItem = styled.div`
   }
 `;
 
-const DoctorIntroduction = ({ DeveloperMode }) => {
+const DoctorIntroduction = ({ DeveloperMode,Title, Specialization, Department, Experience}) => {
   return (
     <IntroContainer>
-      <IntroItem>
+      <IntroItem> {/*Job Title of the doctor*/}
         {DeveloperMode ? <img src={edit} alt="edit icon" /> : ''}
-        <p>Senior Cardiothoracic Surgeon</p>
+        {DeveloperMode ?<textarea style = {{border:"1px solid black"}} rows="2" cols="30" maxLength={60}>{Title}</textarea> : <p>{Title}</p>}
       </IntroItem>
-      <IntroItem>
+      <IntroItem> {/*Specialization of the doctor*/}
         {DeveloperMode ? <img src={edit} alt="edit icon" /> : ''}
-        <p>Department of Health Care and Customer Service</p>
+        {DeveloperMode ?<textarea style = {{border:"1px solid black"}} rows="2" cols="30" maxLength={60}>{Specialization}</textarea> : <p>{Specialization}</p>}
       </IntroItem>
-      <IntroItem>
+      <IntroItem> {/*Department of the doctor*/}
         {DeveloperMode ? <img src={edit} alt="edit icon" /> : ''}
-        <p>10+ Experience performing intricate heart and lung surgeries</p>
+        {DeveloperMode ?<textarea style = {{border:"1px solid black"}} rows="2" cols="30" maxLength={60}>{Department}</textarea> : <p>{Department}</p>}
+      </IntroItem>
+      <IntroItem> {/*Experience of the doctor*/}
+        {DeveloperMode ? <img src={edit} alt="edit icon" /> : ''}
+        {DeveloperMode ?<textarea style = {{border:"1px solid black"}} rows="2" cols="30" maxLength={60}>{Experience}</textarea> : <p>{Experience}</p>}
       </IntroItem>
     </IntroContainer>
   );

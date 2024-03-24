@@ -8,11 +8,30 @@ import styled from 'styled-components';
   font-family: -apple-system, system-ui, 'Segoe UI', 'Liberation Sans', sans-serif;
 `;
 
-const CardContent = ({ DeveloperMode }) => {
+const CardContent = ({ DeveloperMode,Title, Prefix, Name, Rating, Specialization, Pronoun, Email, Number, AvailableTime, Experience, TotalAppointments, Institute, Department, AddressLine, AddressRegion }) => {
   return (
     <StyledCardContent>
-      <CardHeader DeveloperMode={DeveloperMode} />
-      <CardBody DeveloperMode={DeveloperMode} />
+      <CardHeader 
+        DeveloperMode={DeveloperMode} 
+        Institute={Institute} 
+      />
+      <CardBody 
+        DeveloperMode={DeveloperMode} 
+        Title = {Title}
+        Prefix = {Prefix} 
+        Name = {Name} 
+        Rating = {Rating} 
+        Department= {Department}
+        Specialization = {Specialization} 
+        Pronoun = {Pronoun} 
+        Email = {Email} 
+        Number = {Number}
+        AvailableTime = {AvailableTime} 
+        Experience = {Experience} 
+        TotalAppointments = {TotalAppointments}
+        AddressLine= {AddressLine} 
+        AddressRegion= {AddressRegion}
+      />
     </StyledCardContent>
   );
 };

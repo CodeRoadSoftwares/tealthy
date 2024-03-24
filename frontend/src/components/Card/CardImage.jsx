@@ -15,12 +15,12 @@ import CardAvatar from './CardAvatar';
     margin-right: 10px;
   `;
   
-  const CardImage = ({ handleSwitch, DeveloperMode }) => {
+  const CardImage = ({ handleSwitch, DeveloperMode,Image, Name}) => {
     return (
       <ImageContainer>
         <CardModeButton handleSwitch={handleSwitch} DeveloperMode={DeveloperMode} />
         <AvatarContainer>
-          <CardAvatar DeveloperMode={DeveloperMode} />
+          <CardAvatar Image = {Image} Name = {Name}/>
         </AvatarContainer>
       </ImageContainer>
     );

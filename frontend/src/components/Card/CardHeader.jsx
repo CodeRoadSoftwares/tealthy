@@ -9,8 +9,10 @@ const HeaderContainer = styled.div`
   font-family: -apple-system, system-ui, "Segoe UI", "Liberation Sans", sans-serif;
 `;
 
-const Title = styled.h1`
+const InstituteName = styled.h1`
   margin: 5px;
+  font-size: 24px;
+  font-weight: bold;
 `;
 
 const EditIcon = styled.img`
@@ -19,10 +21,11 @@ const EditIcon = styled.img`
   cursor: pointer;
 `;
 
-const CardHeader = ({ DeveloperMode }) => {
+const CardHeader = ({ DeveloperMode, Institute}) => {
   return (
     <HeaderContainer>
-      <Title>Example Health Care - Everywhere Hospital</Title>
+      {DeveloperMode ? <textarea style = {{border:"1px solid black"}} rows="2" cols="70" maxLength={70}>{Institute}</textarea>
+      : <InstituteName>{Institute}</InstituteName>}
       {DeveloperMode && <EditIcon src={edit} alt="edit icon" />}
     </HeaderContainer>
   );
