@@ -2,4 +2,208 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  color: #262C67;
+}
+ .carts{
+  width: 100%;
+  /* height: 50vh; */
+  padding: 2vw 5vw;
+  /* border: 2px solid red; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cart{
+  width: 17%;
+  height: 40vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  /* flex-wrap: wrap; */
+  /* border: 2px solid blue; */
+  border-radius: 20px;
+  box-shadow: 2px 2px 2px 2px rgb(179, 178, 178);
+}
+
+.cart img{
+  margin: auto;
+  width: 100%;
+  height: 80%;
+  object-fit: cover;
+}
+
+.cart p{
+  text-align: center;
+  text-transform: capitalize;
+  font-size: 1.3vw;
+  margin-bottom: .5vw;
+}
+
+#lower{
+  /* height: 50vh; */
+  padding: 2vw 5vw;
+  display: flex;
+  justify-content: space-around;
+}
+#lower button{
+  /* border: none; */
+  border-radius: 10px;
+  border: .5px solid black;
+  cursor: pointer;
+  outline: none;
+  font-size: 1.5vw;
+  padding: 1vw;
+  background-color: #050A4E;
+  color: #fff;
+}
+
+#lower-left{
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#lower-left p{
+  font-size: 1.6vw;
+}
+
+#lower-right{
+  width: 40%;
+}
+
+#lower video{
+  width: 100%;
+  border-radius: 20px;
+}
+
+#cart-2{
+  padding: 2vw 5vw;
+}
+
+#cart-2 h1{
+  font-size: 3vw;
+  font-weight: 500;
+  margin: 2vw 0;
+}
+
+#cart-2 h3{
+  font-size: 1.5vw;
+  font-weight: 100;
+  margin: 2vw 0;
+}
+
+.carts-2{
+  width: 100%;
+  /* height: 50vh; */
+  padding: 2vw 5vw;
+  /* border: 2px solid red; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#cart{
+  width: 17%;
+  height: 40vh;
+  padding: 2vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 20px;
+  box-shadow: 2px 2px 2px 2px rgb(179, 178, 178);
+}
+
+#cart img{
+  width: 50%;
+}
+
+#footer{
+  padding: 2vw 5vw;
+}
+
+#footer h1{
+  text-align: center;
+}
+
+#footer #section{
+  /* border: 1px solid red; */
+  padding: 1.6vw 2vw;
+  margin: 2vw 0;
+  background-color: #11B4A5;
+}
+
+#section p{
+  font-size: 2vw;
+  color: #fff !important;
+
+}
+
+
+
+
+@media (max-width: 1080px) {
+  .carts{
+    position: relative;
+    min-height: 100vh;
+    /* background-color: aqua; */
+    flex-direction: column;
+  }
+  .cart{
+    width: 80%;
+    margin-bottom: 4vw;
+  }
+  .cart p{
+    font-size: 3vw;
+  }
+  #lower{
+    flex-direction: column;
+    min-height: 50vh;
+  }
+  #lower-left{
+    width: 80%;
+    margin: auto;
+    padding-bottom: 2vw;
+  }
+  #lower-right{
+    padding-bottom: 2vw;
+    width: 80%;
+    margin: auto;
+  }
+  #lower-left p{
+    font-size: 4vw;
+  }
+
+
+.carts-2{
+  width: 100%;
+  /* height: 50vh; */
+  padding: 2vw 5vw;
+  /* border: 2px solid red; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#cart{
+  width: 80%;
+  height: 40vh;
+  padding: 2vw;
+  margin: 2vw 0;
+  /* display: flex; */
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 20px;
+  box-shadow: 2px 2px 2px 2px rgb(179, 178, 178);
+}
+
+#cart img{
+  width: 33%;
+  height: 60%;
+  object-fit: cover;
+}
+
 }
