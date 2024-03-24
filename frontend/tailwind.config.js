@@ -14,6 +14,7 @@ export default {
       text: "#333333",
       error: "#FF4136",
       neutral: "#F5F5F5",
+      dotsGrey: "#9CA3AF"
     },
   },
   plugins: [],
