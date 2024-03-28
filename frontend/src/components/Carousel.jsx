@@ -1,18 +1,21 @@
-import ImageBanner from "./Banners/ImageBanner";
 import { useState, useEffect } from "react";
+import ImageBanner from "./Banners/ImageBanner";
+import { ChevronLeft, ChevronRight } from "react-feather";
 
-const Carousel = ({ banners, showButtons, showDots }) => {
-    
-    const [currentIndex, setCurrentIndex] = useState(0);
+const Carousel = ({banners, showBtns = true, showDots = true, scrollSpeed = 3}) => {
+
+    const [current, setCurrent] = useState(0);
     const [scrollInterval, setScrollInterval] = useState(null);
-    
+
+    const prev = () => setCurrent((current)=> (current == 0 ? banners.length - 1 : current - 1));
+    const next = () => setCurrent((current) => (current == banners.length - 1 ? 0 : current + 1));
+
     useEffect(() => {
         const interval = setInterval(() => {
-                setCurrentIndex((prevIndex) =>
-                prevIndex === banners.length - 1 ? 0 : prevIndex + 1
-            );
-        }, 2000); // Change the interval (in milliseconds) to adjust the scroll speed
-
+            setCurrent((prevIndex) =>
+                prevIndex === banners.length - 1 ? 0 : prevIndex + 1);
+        }, scrollSpeed * 1000);
+        
         setScrollInterval(interval);
 
         return () => clearInterval(interval);
@@ -24,88 +27,37 @@ const Carousel = ({ banners, showButtons, showDots }) => {
 
     const handleMouseLeave = () => {
         const interval = setInterval(() => {
-            setCurrentIndex((prevIndex) =>
-            prevIndex === banners.length - 1 ? 0 : prevIndex + 1
+            setCurrent((prevIndex) =>
+                prevIndex === banners.length - 1 ? 0 : prevIndex + 1
             );
-        }, 3000);
+        }, scrollSpeed * 1000);
         setScrollInterval(interval);
     };
 
-    const handlePrev = () => {
-        setCurrentIndex(currentIndex === 0 ? banners.length - 1 : currentIndex - 1);
-    };
-
-    const handleNext = () => {
-        setCurrentIndex(currentIndex === banners.length - 1 ? 0 : currentIndex + 1);
-    };
-
     return (
-        <div className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-            <div className="w-full">
-                {banners.map((image, index) => (
-                    <div key={index} className="relative">
-                        <ImageBanner
-                            image={image.src}
-                            alt={`Image ${index + 1}`}
-                            opacity={index === currentIndex ? 'block' : 'hidden'}
-                        />
-                        {index===currentIndex && (
-                            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
-                                <div className="flex justify-center">
-                                    {banners.map((_, index) => (
-                                        <div
-                                            key={index}
-                                            className={`w-3 h-3 rounded-full mx-[2px] ${
-                                            index === currentIndex
-                                                ? 'bg-text'
-                                                : 'bg-dotsGrey cursor-pointer'
-                                            }`}
-                                            onClick={() => setCurrentIndex(index)}
-                                            hidden={!showDots}
-                                        />
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                ))}
+        <div className="lg:w-[20rem] sm:w-[10rem] md:w-[15rem] h-full hover:cursor-pointer">
+        <div className="overflow-hidden relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+            <div className="flex transition-transform ease-out duration-500" style={{ transform: `translateX(-${current * 100}%)` }}>
+                {banners.map((banner, index) => 
+                <ImageBanner key={index} image={banner.src} alt={banner.alt}></ImageBanner>
+                )}
             </div>
-            
-            <button
-                className="absolute top-1/2 left-1 transform -translate-y-1/2 bg-gray-800 text-white rounded-full focus:outline-none"
-                onClick={handlePrev}
-                hidden={!showButtons}>
-                <svg
-                    className="w-10 h-10"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={1}
-                        d="M15 19l-7-7 7-7"
-                    />
-                </svg>
-            </button>
-            <button
-                className="absolute top-1/2 right-1 transform -translate-y-1/2 bg-gray-800 text-white rounded-full focus:outline-none"
-                onClick={handleNext}
-                hidden={!showButtons}>
-                <svg
-                    className="w-10 h-10"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={1}
-                        d="M9 5l7 7-7 7"/>
-                </svg>
-            </button>
+            <div className="absolute inset-0 flex items-center justify-between" hidden={showBtns}>
+                <button onClick={prev}>
+                    <ChevronLeft className="lg:h-10 lg:w-10 md:h-7 md:w-7 sm:h-5 sm:w-5"></ChevronLeft>
+                </button>
+                <button onClick={next}>
+                    <ChevronRight className="lg:h-10 lg:w-10 md:h-7 md:w-7 sm:h-5 sm:w-5"></ChevronRight>
+                </button>
+            </div>
+            <div className="absolute bottom-12 right-0 left-0" hidden={!showDots}>
+                <div className="flex items-center justify-center gap-2">
+                    {banners.map((_, i) => 
+                    <div key={i} className={`transition-all lg:h-3 lg:w-3 md:h-2 md:w-2 sm:h-1 sm:w-1 bg-background rounded-full ${current == i ? "p-1" : "bg-opacity-50"}`}></div>
+                    )}
+                </div>
+            </div>
+        </div>
         </div>
     )
 }

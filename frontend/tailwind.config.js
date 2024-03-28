@@ -16,6 +16,13 @@ export default {
       neutral: "#F5F5F5",
       dotsGrey: "#9CA3AF"
     },
+    screens: {
+      'sm': '200px',
+      // => @media (min-width: 200px) { ... }
+      'md': '600px',
+
+      'lg': '1024px'
+    },
   },
   plugins: [],
 };
