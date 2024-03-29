@@ -14,7 +14,14 @@ app.use(session({
     saveUninitialized: false,
     resave: false
 }));
-//we can set the store for the session, our mongoDb when we hav a db coneection string
+//we can set the store for the session, our mongoDb when we hav a db connection string
+// const mongoose = require('mongoose');
+// const mongoURI = "mongodb://localhost:27017/";
+
+// mongoose.connect(mongoURI)
+//   .then(() => console.log('Connected to Mongo Successfully!'))
+//   .catch(error => console.error(error));
+
 
 app.use("/user", userRouter);
 
