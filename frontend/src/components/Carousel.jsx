@@ -35,7 +35,7 @@ const Carousel = ({banners, showBtns = true, showDots = true, scrollSpeed = 3}) 
     };
 
     return (
-        <div className="lg:w-[20rem] sm:w-[10rem] md:w-[15rem] h-full hover:cursor-pointer">
+        <div className="w-full h-full hover:cursor-pointer">
         <div className="overflow-hidden relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <div className="flex transition-transform ease-out duration-500" style={{ transform: `translateX(-${current * 100}%)` }}>
                 {banners.map((banner, index) => 
