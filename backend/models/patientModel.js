@@ -10,13 +10,26 @@ const patientSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  phoneNumber: {
+  username: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
     type: String,
     required: true
   },
-  address: {
+  salt: {
     type: String,
     required: true
+  },
+  phoneNumber: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  address: {
+    type: String,
   }
 });
 
