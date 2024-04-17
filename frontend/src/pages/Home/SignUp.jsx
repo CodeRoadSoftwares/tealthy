@@ -2,15 +2,33 @@ import { useRef } from "react";
 
 const SignUp = () => {
     const formRef = useRef(null);
-
     function handleFormSubmit(e){
         e.preventDefault();
         const formData = new FormData(formRef.current);
         const formValues = Object.fromEntries(formData.entries());
-        console.log(formValues);
-        validateInputFields(formValues);
+        if(validateInputFields(formValues)){
+            //when inputs are valid, check for username availabilty
+            checkUserExists(formValues);
+            // console.log("user exists: ", userExists);
+        }
     }
-    
+
+    function validateInputFields(formValues){
+        if(checkEmptyInputs(formValues)){
+            alert("One or more input is empty")
+            return false;
+        }
+        if(formValues?.phone.length > 10){
+            alert("Invalid number")
+            return false;
+        }
+        if(formValues?.password != formValues?.confirmpassword){
+            alert("passwords dont match")
+            return false;
+        }
+        return true;
+    }
+
     function checkEmptyInputs(formValues){
         const hasEmptyValue = Object.values(formValues).some(value => {
             if (typeof value === 'string') {
@@ -18,16 +36,26 @@ const SignUp = () => {
             }
             return false;
         });
-
         return hasEmptyValue;
     }
-    function validateInputFields(formValues){
-        if(checkEmptyInputs(formValues)){
-            alert("One or more input is empty")
-        }
-        if(formValues?.password != formValues?.confirmpassword){
-            alert("passwords dont match")
-        }
+
+    function checkUserExists(formValues){
+        console.log(formValues);
+        const fetchPromise = fetch('http://localhost:3000/user/api/v1/checkuser', {
+            headers: {
+                username: formValues.username,
+                email: formValues.email
+            },
+            method: "POST"
+        }) 
+        
+        fetchPromise.then(response => {
+            console.log("first promise")
+            return response.json();
+        }).then(data => {
+            console.log("second promise")
+            console.log("api result: ", data);
+        });
     }
 
     return(
