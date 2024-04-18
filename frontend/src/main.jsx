@@ -5,9 +5,9 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import './index.css'
 // Please customize "YOUR ID HERE"
 ReactDOM.createRoot(document.getElementById('root')).render(
-  // <GoogleOAuthProvider clientId="YOUR ID HERE">
+  <GoogleOAuthProvider clientId="123603861190-3ugdemkftujm734b9kc10escfbi8qp92.apps.googleusercontent.com">
   <React.StrictMode>
     <App />
   </React.StrictMode>,
-  // </GoogleOAuthProvider>
+  </GoogleOAuthProvider>
 )
