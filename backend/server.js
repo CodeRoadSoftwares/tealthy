@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const userRouter = require("./routes/user");
+const loginRouter = require('./routes/login')
 const session = require("express-session");
 const mongoose = require("mongoose");
 const MongoDBStore = require("connect-mongodb-session")(session);
@@ -23,6 +24,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
+app.get("/",(req,res)=>{
+  res.send('Hello')
+})
+
 // session middleware
 app.use(
   session({
@@ -35,6 +40,7 @@ app.use(
 );
 
 app.use("/user", userRouter);
+app.use("/login", loginRouter);
 
 // Connection to database
 async function connectToDatabase() {
@@ -51,6 +57,8 @@ async function connectToDatabase() {
   }
 }
 connectToDatabase();
+
+
 
 const PORT = 3000;
 app.listen(PORT, () => {

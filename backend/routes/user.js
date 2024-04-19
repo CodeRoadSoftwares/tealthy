@@ -16,4 +16,8 @@ router.post('/api/v1/dummy', (req, res) => {
     }
 })
 
+router.get('/',(req,res)=>{
+    res.send("hiii")
+})
+
 module.exports = router;

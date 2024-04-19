@@ -32,19 +32,9 @@ function Login() {
       const data = await axios
         .post("http://localhost:6002/login", input)
         .then((res) => {
-          if (res.status == 200) {
-            navigate("/");
-            setAuth(() => {
-              return {
-                ...auth,
-                user: res.data,
-                token: res.token,
-              };
-            });
             const data = JSON.stringify(res);
-            window.localStorage.setItem("user", data);
-          }
-        })
+            window.localStorage.setItem("token", data);
+          })
         .catch((err) => {
           alert("Something Wrong");
         });
