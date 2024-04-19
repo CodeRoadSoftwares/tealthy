@@ -36,11 +36,13 @@ const patientSchema = new mongoose.Schema({
 
 patientSchema.pre('save', async function (next){
   try{
+    console.log("called presave");
     const newSalt = await bcrypt.genSalt(10);
     const hashedPasssword = await bcrypt.hash(this.password, newSalt);
 
-    this.salt = hashedPasssword;
-    this.password = undefined;
+    this.salt = newSalt;
+    this.password = hashedPasssword;
+    next();
   }
   catch(err){
     next(err)

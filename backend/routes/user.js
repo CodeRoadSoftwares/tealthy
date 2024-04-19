@@ -1,29 +1,36 @@
 const { Router } = require("express");
+const { userCheckBody, signUpBody } = require("../helpers/requestSchemaValidators");
+const { checkUserExists } = require("../helpers/signUpHelper");
 const Patient = require("../models/patientModel");
 
 const router = Router();
 
-router.post('/api/v1/dummy', (req, res) => {
-    res.send({
-        message: "dummy api hit success"
-    })
-})
-
 router.post('/api/v1/checkuser', async(req, res) => {
-    console.log(req.headers)
+    console.log(req.body)
+    const { success } = userCheckBody.safeParse(req.body);
     try{
-        const {username, email} = req.headers;
-        const existingUser = await Patient.findOne({email: email, username: username});
-        if(!existingUser){
-            res.status(200).send({
-                message: "Username not available!"
+        if(!success){
+            return res.status(400).send({
+                message: "Request validation failed!"
             })
         }
-        else{
-            res.status(403).send({
-                message: "Username already exists!"
-            })
-        }
+        checkUserExists({ email: req.body.email, username: req.body.username, phoneNumber: req.body.number })
+        .then(result => {
+            if (result.exists) {
+                console.log(`User with ${result.field} ${result.value} already exists`);
+                return res.status(401).send({
+                    message: `User with ${result.field} ${result.value} already exists`
+                })
+            } else {
+                console.log('No user found with the provided email, username, or number');
+                return res.status(200).send({
+                    message: 'Username available!'
+                })
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
     }
     catch(e){
         console.log(e);
@@ -34,20 +41,21 @@ router.post('/api/v1/checkuser', async(req, res) => {
 })
 
 router.post('/api/v1/signup', async(req, res) => {
+    const { success } = signUpBody.safeParse(req.body);
     console.log(req.body);
     try{
-        const { userData } = req.body;
-        if(!userData){
-            res.status(404).send({
-                message: "No user data recieved"
+        if(!success){
+            return res.status(404).send({
+                message: "Request validation failed!"
             })
         }
 
         const newUser = new Patient({
             name: userData?.name,
-            email: userData?.eamil,
+            email: userData?.email,
             username: userData?.username,
             password: userData?.password,
+            salt: "preSaveSalt",
             phoneNumber: userData?.phone,
             address: userData?.address
         });
