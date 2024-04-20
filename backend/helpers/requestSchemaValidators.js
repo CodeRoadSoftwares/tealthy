@@ -2,8 +2,8 @@ const zod = require("zod")
 
 const userCheckBody = zod.object({
     username: zod.string(),
-    email: zod.string().email(),
-    number: zod.number()
+    email: zod.string().email()
+    
 })
 
 const signUpBody = zod.object({

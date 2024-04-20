@@ -1,19 +1,17 @@
 const Patient = require("../models/patientModel");
 
-const checkUserExists = async ({ email, username, phoneNumber }) => {
-    console.log(email, username, phoneNumber);
+const checkUserExists = async ({ email, username}) => {
     try {
       const user = await Patient.findOne({
         $or: [
           { email },
           { username },
-          { phoneNumber },
         ],
       });
       console.log("user: ", user);
       if (user) {
         const existingField = Object.entries(user.toObject()).find(([key, value]) => {
-            return [email, username, phoneNumber].includes(value);
+            return [email, username].includes(value);
         });
         console.log("ef: ",existingField)
         return {

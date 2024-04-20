@@ -5,7 +5,7 @@ const Patient = require("../models/patientModel");
 
 const router = Router();
 
-router.post('/api/v1/checkuser', async(req, res) => {
+router.post('/api/v1/check-user-availability', async(req, res) => {
     console.log(req.body)
     const { success } = userCheckBody.safeParse(req.body);
     try{
@@ -14,17 +14,17 @@ router.post('/api/v1/checkuser', async(req, res) => {
                 message: "Request validation failed!"
             })
         }
-        checkUserExists({ email: req.body.email, username: req.body.username, phoneNumber: req.body.number })
+        checkUserExists({ email: req.body.email, username: req.body.username })
         .then(result => {
             if (result.exists) {
                 console.log(`User with ${result.field} ${result.value} already exists`);
                 return res.status(401).send({
-                    message: `User with ${result.field} ${result.value} already exists`
+                    message: `User with email/username already exists`
                 })
             } else {
-                console.log('No user found with the provided email, username, or number');
+                console.log('No user found with the provided email, or username');
                 return res.status(200).send({
-                    message: 'Username available!'
+                    message: 'Username/email available!'
                 })
             }
         })
