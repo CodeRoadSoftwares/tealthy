@@ -1,15 +1,17 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 
 const SignUp = () => {
     const formRef = useRef(null);
+    const [formData, setFormData] = useState(null);
+    const [availabilityMessage, setAvailabilityMessage] = useState('');
+    const debounceTimer = useRef(null);
+
     function handleFormSubmit(e){
         e.preventDefault();
         const formData = new FormData(formRef.current);
         const formValues = Object.fromEntries(formData.entries());
         if(validateInputFields(formValues)){
-            //when inputs are valid, check for username availabilty
             checkUserExists(formValues);
-            // console.log("user exists: ", userExists);
         }
     }
 
@@ -39,29 +41,51 @@ const SignUp = () => {
         return hasEmptyValue;
     }
 
-    function checkUserExists(formValues){
-        console.log(formValues);
-        const fetchPromise = fetch('http://localhost:3000/user/api/v1/checkuser', {
-            headers: {
-                username: formValues.username,
-                email: formValues.email
-            },
-            method: "POST"
-        }) 
+    useEffect(() => {
+        const formDataObj = new FormData(formRef.current);
+        setFormData(formDataObj);
+    }, []);
+    
+    const handleInputChange = (event) => {
+        console.log(username);
+        const formDataObj = new FormData(formRef.current);
+        setFormData(formDataObj);
+        clearTimeout(debounceTimer.current);
+        debounceTimer.current = setTimeout(() => {
+            checkAvailability();
+        }, 500);
+    };
+    
+    const checkAvailability = async () => {
+        const formEntries = Object.fromEntries(formData.entries());
         
-        fetchPromise.then(response => {
-            console.log("first promise")
-            return response.json();
-        }).then(data => {
-            console.log("second promise")
-            console.log("api result: ", data);
-        });
-    }
+        if(formEntries.email.length==0 || formEntries.username.length==0) return;
+        
+        const reqBody = {
+            username: formEntries.username,
+            email: formEntries.email
+        }
+        console.log(reqBody);
+        try {
+            const response = await fetch('http://localhost:3000/user/api/v1/check-user-availability', {
+                method: "POST",
+                body: JSON.stringify(reqBody),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            const data = await response.json();
+            setAvailabilityMessage(data.message);
+        } catch (error) {
+            console.error(error);
+            setAvailabilityMessage('An error occurred while checking availability.');
+        }
+    };
 
     return(
         <div className="w-screen h-screen flex items-center justify-center">
             <div className="w-1/5 h-max">
-                <form ref={formRef} id="signup-form" onSubmit={handleFormSubmit}>
+                <form ref={formRef} id="signup-form" onSubmit={handleFormSubmit} onChange={handleInputChange}>
                     <div className="my-4 flex flex-col w-[100%] gap-2 [&>input]:border rounded-md [&>label]:font-medium">
                         <label>Name</label>
                         <input name="firstname" type="text" placeholder="John Doe" className="pl-1 placeholder:pl-2 py-1">
@@ -84,6 +108,7 @@ const SignUp = () => {
                         <label>Confirm Password</label>
                         <input name="confirmpassword" type="password" placeholder="Enter your password again" className="pl-1 placeholder:pl-2 py-1">
                         </input>
+                        {availabilityMessage && <p>{availabilityMessage}</p>}
                     </div>
                     <button className="w-[100%] rounded-md bg-text text-background py-2 mb-4">Sign Up</button>
                 </form>
