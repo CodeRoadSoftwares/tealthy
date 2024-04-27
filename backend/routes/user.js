@@ -19,7 +19,7 @@ router.post('/api/v1/check-user-availability', async(req, res) => {
             if (result.exists) {
                 console.log(`User with ${result.field} ${result.value} already exists`);
                 return res.status(401).send({
-                    message: `User with email/username already exists`
+                    message: `User with ${result.field} ${result.value} already exists`
                 })
             } else {
                 console.log('No user found with the provided email, or username');
@@ -41,23 +41,23 @@ router.post('/api/v1/check-user-availability', async(req, res) => {
 })
 
 router.post('/api/v1/signup', async(req, res) => {
-    const { success } = signUpBody.safeParse(req.body);
     console.log(req.body);
+    const { success } = signUpBody.safeParse(req.body);
     try{
         if(!success){
-            return res.status(404).send({
+            return res.status(401).send({
                 message: "Request validation failed!"
             })
         }
 
         const newUser = new Patient({
-            name: userData?.name,
-            email: userData?.email,
-            username: userData?.username,
-            password: userData?.password,
+            name: req.body?.name,
+            email: req.body?.email,
+            username: req.body?.username,
+            password: req.body?.password,
             salt: "preSaveSalt",
-            phoneNumber: userData?.phone,
-            address: userData?.address
+            phoneNumber: req.body?.number,
+            address: req.body?.address
         });
 
         await newUser.save();
