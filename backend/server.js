@@ -11,7 +11,7 @@ require("dotenv").config();
 const app = express();
 
 const MONGODB_URI =
-  "mongodb+srv://coderoadsoftwares:5tr0n9P%4055w0rd@mycluster.9je5y9a.mongodb.net/?retryWrites=true&w=majority&appName=MyCluster/tealthy";
+  "mongodb+srv://coderoadsoftwares:5tr0n9P%4055w0rd@mycluster.9je5y9a.mongodb.net/tealthy?retryWrites=true&w=majority&appName=MyCluster";
 
 // storing session in mongo db
 const store = new MongoDBStore({
