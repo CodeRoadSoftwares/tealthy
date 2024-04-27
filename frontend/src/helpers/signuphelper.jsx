@@ -1,4 +1,4 @@
-export const validate = values => {
+export const validate = async values => {
     const errors = {};
     if (!values.name) {
         errors.name = 'Required';
@@ -8,7 +8,7 @@ export const validate = values => {
 
     if (!values.username) {
         errors.username = 'Required';
-    } else if (values.username.length > 15 || values.username.length < 4) {
+    } else if (values.username.length > 20 || values.username.length < 4) {
         errors.username = 'Must be less than 20 charcters and greater than 4 characters';
     }
 
@@ -47,4 +47,22 @@ export const FormError = ({ errorMessage }) => {
     return (
         <div className="text-error text-xs leading-3 p-0">{errorMessage}*</div>
     )
+}
+
+export async function callUserApi(endpoint, payload){
+    const url = 'http://localhost:3000/user/api/v1' + endpoint;
+    const requestBody = JSON.stringify(payload);
+    
+    const response = await fetch(url, {
+        method: "POST",
+        body: requestBody,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    
+    const statusCode = response.status;
+    const data = await response.json();
+    
+    return {data:data, status:statusCode};
 }
