@@ -11,8 +11,30 @@ const SignUp = () => {
         const formData = new FormData(formRef.current);
         const formValues = Object.fromEntries(formData.entries());
         if(validateInputFields(formValues)){
-            checkUserExists(formValues);
+            signupUser(formValues)
         }
+    }
+
+    async function signupUser(formValues){
+        // console.log(formValues);
+        const requestBody = {
+            name: formValues.firstname,
+            username: formValues.username,
+            email: formValues.email,
+            password: formValues.password,
+            number: parseInt(formValues.phone),
+            address: formValues.address
+        }
+        console.log(requestBody)
+        const response = await fetch('http://localhost:3000/user/api/v1/signup', {
+            method: "POST",
+            body: JSON.stringify(requestBody),
+            headers: {
+                'Content-Type': 'application/json' // Explicitly set the Content-Type header
+            }
+        })
+        const data = await response.json();
+        console.log(data);
     }
 
     function validateInputFields(formValues){
@@ -47,7 +69,6 @@ const SignUp = () => {
     }, []);
     
     const handleInputChange = (event) => {
-        console.log(username);
         const formDataObj = new FormData(formRef.current);
         setFormData(formDataObj);
         clearTimeout(debounceTimer.current);
@@ -58,7 +79,7 @@ const SignUp = () => {
     
     const checkAvailability = async () => {
         const formEntries = Object.fromEntries(formData.entries());
-        
+        console.log(formEntries)
         if(formEntries.email.length==0 || formEntries.username.length==0) return;
         
         const reqBody = {
@@ -69,11 +90,8 @@ const SignUp = () => {
         try {
             const response = await fetch('http://localhost:3000/user/api/v1/check-user-availability', {
                 method: "POST",
-                body: JSON.stringify(reqBody),
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
+                body: JSON.stringify(reqBody)
+            })
             const data = await response.json();
             setAvailabilityMessage(data.message);
         } catch (error) {
@@ -85,13 +103,13 @@ const SignUp = () => {
     return(
         <div className="w-screen h-screen flex items-center justify-center">
             <div className="w-1/5 h-max">
-                <form ref={formRef} id="signup-form" onSubmit={handleFormSubmit} onChange={handleInputChange}>
+                <form ref={formRef} id="signup-form" onSubmit={handleFormSubmit}>
                     <div className="my-4 flex flex-col w-[100%] gap-2 [&>input]:border rounded-md [&>label]:font-medium">
                         <label>Name</label>
                         <input name="firstname" type="text" placeholder="John Doe" className="pl-1 placeholder:pl-2 py-1">
                         </input>
                         <label>Email</label>
-                        <input name="email" type="email" placeholder="johndoe@gmail.com" className="pl-1 placeholder:pl-2 py-1">
+                        <input name="email" type="email" placeholder="johndoe@gmail.com" className="pl-1 placeholder:pl-2 py-1" onChange={handleInputChange}>
                         </input>
                         <label>Phone</label>
                         <input name="phone" type="tel" placeholder="+91XXXXXXXXXX" className="pl-1 placeholder:pl-2 py-1">
@@ -100,7 +118,7 @@ const SignUp = () => {
                         <input name= "address" type="text" placeholder="Jane Street" className="pl-1 placeholder:pl-2 py-1">
                         </input>
                         <label>Username</label>
-                        <input name="username" type="text" placeholder="Create a username" className="pl-1 placeholder:pl-2 py-1">
+                        <input name="username" type="text" placeholder="Create a username" className="pl-1 placeholder:pl-2 py-1" onChange={handleInputChange}>
                         </input>
                         <label>Password</label>
                         <input name="password" type="password" placeholder="Create your password" className="pl-1 placeholder:pl-2 py-1">

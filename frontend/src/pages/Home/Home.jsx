@@ -1,9 +1,10 @@
 import React from "react";
 import CardContainer from "../../components/Card/CardContainer";
 import SignUp from "./SignUp";
+import SignUpV2 from "../SignUpV2";
 const Home = () => {
   return <>
-    <SignUp />
+    <SignUpV2 />
   </>;
 };
 
