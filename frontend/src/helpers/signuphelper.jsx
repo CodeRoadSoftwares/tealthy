@@ -18,10 +18,10 @@ export const validate = async values => {
         errors.email = 'Invalid email address';
     }
 
-    if(!values.phone) {
-        errors.phone = 'Required';
-    } else if(values.phone.length != 10){
-        errors.phone = 'Invalid phone number length'
+    if(!values.phoneNumber) {
+        errors.phoneNumber = 'Required';
+    } else if(values.phoneNumber.length != 10){
+        errors.phoneNumber = 'Invalid phone number length'
     }
 
     if(!values.address) {

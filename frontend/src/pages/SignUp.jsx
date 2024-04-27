@@ -2,20 +2,20 @@ import { useFormik } from "formik"
 import { validate, FormError, callUserApi } from "../helpers/signuphelper"
 import { useEffect } from "react"
 
-const SignUpV2 = () => {
+const SignUp = () => {
     const formik = useFormik({
         initialValues: {
             email: '',
             name: '',
             username: '',
-            phone: '',
+            phoneNumber: '',
             password: '',
             confirmpassword: '',
             address: ''
-    },
+        },
         validate,
-        onSubmit: values => {
-            console.log(values)
+        onSubmit: (values, { resetForm }) => {
+            submitUserData(values, resetForm);
         },
     })
 
@@ -35,6 +35,28 @@ const SignUpV2 = () => {
         if(status == 401){
             const unAvailableField = data.message.split(" ")[2];
             formik.setFieldError(unAvailableField, `${unAvailableField} is already in use`);
+        }
+    }
+
+    async function submitUserData(values, resetForm){
+        const payload = {
+            name: values.name,
+            username: values.username,
+            email: values.email,
+            password: values.password,
+            number: parseInt(values.phoneNumber),
+            address: values.address
+        }
+
+        const { data, status }= await callUserApi('/signup', payload);
+        console.log(data.message);
+
+        if(status == 201){
+            alert('signup sucess!')
+            resetForm();
+        }
+        else{
+            alert('some error occured!')
         }
     }
 
@@ -69,16 +91,16 @@ const SignUpV2 = () => {
                         {formik.touched.email && formik.errors.email ? <FormError errorMessage={formik.errors.email}/> : null}    
                         <label>Phone</label>
                         <input 
-                            id="phone"
-                            name="phone" 
+                            id="phoneNumber"
+                            name="phoneNumber" 
                             type="tel" 
                             placeholder="+91XXXXXXXXXX" 
                             className="pl-1 placeholder:pl-2 py-1"
                             onChange={formik.handleChange}
-                            value={formik.values.phone}
+                            value={formik.values.phoneNumber}
                             onBlur={formik.handleBlur}
                         />
-                        {formik.touched.phone && formik.errors.phone ? <FormError errorMessage={formik.errors.phone}/> : null}
+                        {formik.touched.phoneNumber && formik.errors.phoneNumber ? <FormError errorMessage={formik.errors.phoneNumber}/> : null}
                         <label>Address</label>
                         <input 
                             id="address"
@@ -140,4 +162,4 @@ const SignUpV2 = () => {
     )
 }
 
-export default SignUpV2;
+export default SignUp;
