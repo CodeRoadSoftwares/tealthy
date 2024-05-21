@@ -50,8 +50,8 @@ const accessProtectionMiddleware = (req, res, next) => {
 // Set up passport strategy
 passport.use(new GoogleStrategy(
     {
-        clientID: "123603861190-3ugdemkftujm734b9kc10escfbi8qp92.apps.googleusercontent.com",
-        clientSecret: "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",
+        clientID: process.env.GOOGLE_OAUTH_TEST_APP_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_OAUTH_TEST_APP_CLIENT_SECRET,
         callbackURL: 'http://localhost:5173',
         scope: ['email'],
     },
