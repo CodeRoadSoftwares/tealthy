@@ -11,7 +11,7 @@ const StyledCardBody = styled.div`
 
   .header {
     display: flex;
-    align-items: center;
+    align-items: center; 
 
     h2 {
       margin-right: 10px;
