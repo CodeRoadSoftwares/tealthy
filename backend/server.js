@@ -3,8 +3,11 @@ const express = require("express");
 const session = require("express-session");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const userRouter = require("./routes/user");
+const cookieParser = require("cookie-parser"); // Import cookie-parser
+const jwt = require("jsonwebtoken"); // Import jsonwebtoken
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const passport = require('passport');
+const { Strategy: JWTStrategy } = require('passport-jwt');
 
 const app = express();
 const corsOptions = { // allowing google login to send credential information to authenticate users
@@ -20,60 +23,72 @@ const corsOptions = { // allowing google login to send credential information to
 
 app.use(cors(corsOptions)); // use this to allow access from google login request 
 app.use(bodyParser.json());
+app.use(cookieParser());
 // this is session support
 app.use(session({
     secret: 'dummySecret',
     saveUninitialized: false,
     resave: false
 }));
-//we can set the store for the session, our mongoDb when we have a db coneection string
-app.use("/user", userRouter);
-// Add session support
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Serialize and deserialize user should be updated to work with JWT
 passport.serializeUser((user, done) => {
-    done(null, user);
+    done(null, user.id); // Use user ID for serialization
 });
-passport.deserializeUser((userDataFromCookie, done) => {
-    done(null, userDataFromCookie);
+passport.deserializeUser((id, done) => {
+    // Find user by ID and pass it to done
+    User.findById(id, (err, user) => {
+        done(err, user);
+    });
 });
+
 // Checks if a user is logged in
-const accessProtectionMiddleware = (req, res, next) => {
-    if (req.isAuthenticated()) {
-        next();
-    } else {
-        res.status(403).json({
-            message: 'must be logged in to continue',
-        });
-    }
-};
+
 // Set up passport strategy
 passport.use(new GoogleStrategy(
     {
         clientID: process.env.GOOGLE_OAUTH_TEST_APP_CLIENT_ID,
         clientSecret: process.env.GOOGLE_OAUTH_TEST_APP_CLIENT_SECRET,
-        callbackURL: 'http://localhost:5173',
-        scope: ['email'],
+        callbackURL: 'http://localhost:5173/auth/google/callback',
+        passReqToCallback: true, // Pass request to callback
     },
-    // This is a "verify" function required by all Passport strategies
-    (accessToken, refreshToken, profile, cb) => {
-        console.log('Our user authenticated with Google, and Google sent us back this profile info identifying the authenticated user:', profile);
+    (req, accessToken, refreshToken, profile, cb) => {
+        // Save user profile to database or session
+        req.session.user = profile;
         return cb(null, profile);
-    },
+    }
 ));
+
+// Update JWT strategy for authentication
+passport.use(new JWTStrategy(
+    {
+        jwtFromRequest: req => req.cookies.jwt,
+        secretOrKey: process.env.JWT_SECRET,
+    },
+    (payload, done) => {
+        // Check if user exists based on payload
+        User.findById(payload.user.id, (err, user) => {
+            if (err) return done(err, false);
+            if (user) return done(null, user);
+            else return done(null, false);
+        });
+    }
+));
+
 // Create API endpoints
 // This is where users point their browsers in order to get logged in
 // This is also where Google sends back information to our app once a user authenticates with Google
 // This endpoint matches the "callbackURL"
-app.get('/',
-    passport.authenticate('google', { failureRedirect: '/', session: true }),
-    (req, res) => {
-        console.log('successfully authenticated, here is the user object:', req.user);
-        // res.json(req.user);
-        res.redirect('/');
-    }
-);
-app.get('/protected', accessProtectionMiddleware, (req, res) => {
+app.get('/auth/google/callback', passport.authenticate('google', { session: false }), (req, res) => {
+    console.log("/auth/google/callback")
+    const token = jwt.sign({ user: req.session.user }, process.env.JWT_SECRET, { expiresIn: '1d' });
+    res.cookie('jwt', token, { httpOnly: true, maxAge: 86400000 });
+    res.redirect('http://localhost:5173');
+});
+
+app.get('/protected', passport.authenticate('jwt', { session: false }), (req, res) => {
     res.json({
         message: 'You have accessed the protected endpoint!',
         yourUserInfo: req.user,

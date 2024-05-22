@@ -34,6 +34,7 @@ function Google() {
 
     useEffect(() => {
         if (user) {
+            console.log("the user is trying to login right now, access google api")
             axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`)
                 .then((res) => {
                     setProfile(res.data);
