@@ -53,7 +53,8 @@ app.use(passport.session());
 const client = new OAuth2Client(process.env.GOOGLE_OAUTH_TEST_APP_CLIENT_ID);
 
 app.post('/auth/google', async (req, res) => {
-    const { code } = req.body;
+    const code = req.body;
+    console.log('Incoming code:', code);
     try {
         const { tokens } = await client.getToken({
             code,
@@ -66,6 +67,7 @@ app.post('/auth/google', async (req, res) => {
             idToken: tokens.id_token,
             audience: process.env.GOOGLE_OAUTH_TEST_APP_CLIENT_ID,
         });
+        console.log('ID Token:', ticket.getPayload()); // Add this line for debugging
 
         const { sub: googleId, name, email, picture } = ticket.getPayload();
 

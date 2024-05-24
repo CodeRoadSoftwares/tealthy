@@ -15,10 +15,12 @@ function TestLogin() {
     const login = useGoogleLogin({
         clientId: googleOAuthConfig.clientId,
         redirectUri: googleOAuthConfig.redirectUri,
-        onSuccess: async (response) => {
+        onSuccess: async (response) => { // if the system operates successfully, retrieve credential information from Google OAuth Service
             try {
-                const { code } = response;
-                const res = await axios.post('http://localhost:3000/auth/google', { code });
+                console.log('Response from server:', response);
+                
+
+                const res = await axios.post('http://localhost:3000/auth/google', response );
                 if (res.data.token) {
                     document.cookie = `jwt=${res.data.token}; path=/; HttpOnly`;
                     setMessage("Welcome, " + res.data.user.name);
@@ -30,7 +32,7 @@ function TestLogin() {
                 console.log('Login Failed:', error);
             }
         },
-        onError: (error) => console.log('Login Failed:', error)
+        onError: (error) => console.log('Login Failed:', error) // return an error message if there is an internal error in the system
     });
 
     const logOut = () => {
