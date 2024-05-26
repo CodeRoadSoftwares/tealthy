@@ -37,6 +37,7 @@ function Google() {
             console.log("the user is trying to login right now, access google api")
             axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`)
                 .then((res) => {
+                    console.log(res)
                     setProfile(res.data);
                     setMessage("Welcome,", res.data.name);
                 })
