@@ -15,12 +15,10 @@ function TestLogin() {
     const login = useGoogleLogin({ // Functionality for the Google Login Button 
         clientId: googleOAuthConfig.clientId,
         redirectUri: googleOAuthConfig.redirectUri,
-        flow: 'auth-code',
+        flow: 'auth-code', // tells the google server to send id token
         onSuccess: async ({ code }) => { // if the system operates successfully, retrieve credential information from Google OAuth Service
-            // accepting response from Google Cloud Service Server
-
+            // accepting auth-code from Google Cloud Service Server
             try {
-                // response contains: access_token, token_type, expires_in, scope, authuser, prompt
                 const tokens = await axios.post('http://localhost:3000/auth/google', {  // http://localhost:3001/auth/google backend that will exchange the code
                     code,
                 });

@@ -64,8 +64,10 @@ app.post('/auth/google', async (req, res) => { // triggers when a user logins vi
             idToken: tokens.id_token,
             audience: process.env.GOOGLE_OAUTH_TEST_APP_CLIENT_ID,
         });
-        const { sub: name, email } = ticket.getPayload();
-        console.log("Ticket:", ticket)
+        const { name, email } = ticket.getPayload();
+        console.log("Ticket Payload:", ticket.getPayload())
+        console.log("This is name:", name)
+        console.log("This is email:", email)
         // check if the user exists in ther database 
         let user = await Patient.findOne({ email });
         if (!user) { // if not, create a new user 
@@ -88,6 +90,10 @@ app.post('/auth/google', async (req, res) => { // triggers when a user logins vi
         }
         // generate a JWT token 
         const token = jwt.sign({ user: { salt: user.salt, name: user.name, email: user.email } }, process.env.JWT_SECRET, { expiresIn: '1d' });
+        res.cookie('jwt', token, {
+            httpOnly: true,
+            // will add other cookie options such as secure, sameSite, etc.
+        });
 
         res.status(200).json({ token, user: { salt: user.salt, name: user.name, email: user.email } });
     } catch (error) {
