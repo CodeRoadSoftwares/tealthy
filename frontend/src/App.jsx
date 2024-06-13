@@ -1,9 +1,10 @@
-import Home from "./pages/Home/Home";
+import GooglePage from "./components/GoogleLogin/Page";
 
 function App() {
   return (
     <>
-      <Home />
+    <GooglePage></GooglePage>
+    
     </>
   );
 }
